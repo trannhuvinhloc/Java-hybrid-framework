@@ -2,6 +2,7 @@ package pageObjects.nopCommerce.users;
 
 import commons.BasePage;
 import commons.pageGenerator.PageGeneratorNop;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageUIs.nopCommerce.users.UserRegisterPageUI;
 
@@ -12,14 +13,10 @@ public class UserRegisterPageObject extends BasePage {
 
     WebDriver driver;
 
+    @Step("Click to Male radio button")
     public void clickToMaleRadio() {
         waitForElementClickable(driver, UserRegisterPageUI.GENDER_MALE_RADIO);
         clickToElement(driver, UserRegisterPageUI.GENDER_MALE_RADIO);
-    }
-
-    public void enterToFirstNameTextbox(String firstName) {
-        waitForElementVisible(driver, UserRegisterPageUI.FIRST_NAME_TEXTBOX);
-        sendKeysToElement(driver, UserRegisterPageUI.FIRST_NAME_TEXTBOX, firstName);
     }
 
     public void enterToLastNameTextbox(String lastName) {
@@ -42,27 +39,32 @@ public class UserRegisterPageObject extends BasePage {
         sendKeysToElement(driver, UserRegisterPageUI.CONFIRM_PASSWORD_TEXTBOX, password);
     }
 
+    @Step("Click to Register button")
     public void clickToRegisterButton() {
         waitForElementClickable(driver, UserRegisterPageUI.REGISTER_BUTTON);
         clickToElement(driver, UserRegisterPageUI.REGISTER_BUTTON);
     }
 
+    @Step("Verify Success message is displayed")
     public String getRegisterSuccessMessage() {
         waitForElementVisible(driver, UserRegisterPageUI.REGISTER_SUCCESS_MESSAGE);
         return getTextElement(driver, UserRegisterPageUI.REGISTER_SUCCESS_MESSAGE);
     }
 
+    @Step("Verify My Account link is displayed")
     public boolean isMyAccountLinkDisplay() {
         waitForElementVisible(driver, UserRegisterPageUI.MY_ACCOUNT_LINK);
         return isControlDisplayed(driver, UserRegisterPageUI.MY_ACCOUNT_LINK);
     }
 
+    @Step("Open My Account page")
     public UserCustomerInfoPageObject clickToMyAccountLink() {
         waitForElementClickable(driver, UserRegisterPageUI.MY_ACCOUNT_LINK);
         clickToElement(driver, UserRegisterPageUI.MY_ACCOUNT_LINK);
         return PageGeneratorNop.getUserCustomerInfoPage(driver);
     }
 
+    @Step("Input to FirstName, LastName, Email, Password, ConfirmPassword textbox with value: {0}, {1}, {2}, {3}, {4}")
     public void enterToAllRequiredTextboxes(String firstName, String lastName, String email, String password, String confirmPassword) {
         enterToFirstNameTextbox(firstName);
         enterToLastNameTextbox(lastName);
@@ -71,9 +73,25 @@ public class UserRegisterPageObject extends BasePage {
         enterToConfirmPasswordTextbox(confirmPassword);
     }
 
+    public void enterToFirstNameTextbox(String firstName) {
+        waitForElementVisible(driver, UserRegisterPageUI.FIRST_NAME_TEXTBOX);
+        sendKeysToElement(driver, UserRegisterPageUI.FIRST_NAME_TEXTBOX, firstName);
+    }
+
     public UserHomePageObject clickToHomePageLogo() {
         waitForElementClickable(driver, UserRegisterPageUI.HOME_PAGE_LOGO);
         clickToElement(driver, UserRegisterPageUI.HOME_PAGE_LOGO);
+        return PageGeneratorNop.getUserHomePage(driver);
+    }
+
+    public String getTitle() {
+        waitForElementVisible(driver, UserRegisterPageUI.TITLE);
+        return getTextElement(driver, UserRegisterPageUI.TITLE);
+    }
+
+    public UserHomePageObject clickToLogOutLink() {
+        waitForElementVisible(driver, UserRegisterPageUI.LOG_OUT_LINK);
+        clickToElement(driver, UserRegisterPageUI.LOG_OUT_LINK);
         return PageGeneratorNop.getUserHomePage(driver);
     }
 }

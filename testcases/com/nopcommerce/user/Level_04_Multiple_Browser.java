@@ -1,4 +1,4 @@
-package com.nopcommerce.users;
+package com.nopcommerce.user;
 
 import commons.BaseTest;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import pageObjects.nopCommerce.users.UserHomePageObject;
 import pageObjects.nopCommerce.users.LoginPageObject;
 import pageObjects.nopCommerce.users.UserRegisterPageObject;
 
-public class Level_06_Page_Generator_01 extends BaseTest {
+public class Level_04_Multiple_Browser extends BaseTest {
     private WebDriver driver;
 
     private UserHomePageObject userHomePageObject;
@@ -36,8 +36,9 @@ public class Level_06_Page_Generator_01 extends BaseTest {
 
     @Test
     public void User_01_Register() {
-        userRegisterPageObject = userHomePageObject.clickToRegisterLink();
+        userHomePageObject.clickToRegisterLink();
 
+        userRegisterPageObject = new UserRegisterPageObject(driver);
         userRegisterPageObject.clickToMaleRadio();
         userRegisterPageObject.enterToAllRequiredTextboxes(firstName, lastName, email, password, password);
 
@@ -49,7 +50,8 @@ public class Level_06_Page_Generator_01 extends BaseTest {
 
     @Test
     public void User_02_View_Customer_Info() {
-        userCustomerInfoPageObject = userRegisterPageObject.clickToMyAccountLink();
+        userRegisterPageObject.clickToMyAccountLink();
+        userCustomerInfoPageObject = new UserCustomerInfoPageObject(driver);
 
         Assert.assertTrue(userCustomerInfoPageObject.isGenderMaleSelected());
         Assert.assertEquals(userCustomerInfoPageObject.getFirstNameTextboxValue(), firstName);
@@ -59,15 +61,18 @@ public class Level_06_Page_Generator_01 extends BaseTest {
 
     @Test
     public void User_03_Log_out() {
-        userHomePageObject = userCustomerInfoPageObject.clickToLogOutLink();
+        userCustomerInfoPageObject.clickToLogOutLink();
+        userHomePageObject = new UserHomePageObject(driver);
     }
 
     @Test
     public void User_04_Login() {
-        loginPageObject = userHomePageObject.clickToLogInLink();
+        userHomePageObject.clickToLogInLink();
+        loginPageObject = new LoginPageObject(driver);
 
-        userHomePageObject = loginPageObject.logInToSystem(email, password);
+        loginPageObject.logInToSystem(email, password);
 
+        userHomePageObject = new UserHomePageObject(driver);
         Assert.assertTrue(userHomePageObject.isMyAccountLinkDisplay());
     }
 

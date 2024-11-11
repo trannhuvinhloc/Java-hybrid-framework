@@ -4,10 +4,17 @@
     <parameter name="userUrl" value="http://demo.nopcommerce/"/>
     <parameter name="adminUrl" value="http://demo.nopcommerce/admin"/>
 
-    <test name="Run on Chrome browser">
-    <parameter name="browser" value="Chrome"/>
+    <test name="Run on Firefox browser" preserve-order="false">
+        <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.nopcommerce.users.Level_10_String_Format"/>
+            <class name="com.nopcommerce.user.Level_17_Share_Class_State"/>
+            <class name="com.nopcommerce.common.Register"/>
+        </classes>
+    </test>
+    <test name="Run on Chrome browser">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.nopcommerce.user.Level_17_Share_Class_State"/>
         </classes>
     </test>
 </suite>

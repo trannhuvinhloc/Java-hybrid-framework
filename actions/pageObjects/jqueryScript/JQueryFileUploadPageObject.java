@@ -31,7 +31,7 @@ public class JQueryFileUploadPageObject extends BasePage {
         List<WebElement> buttonList = getListElements(driver, JQueryFileUploadPageUI.ALL_START_UPLOAD_BUTTONS);
         for (WebElement button : buttonList) {
             button.click();
-            sleepInSeconds(GlobalConstants.LONG_SLEEP);
+            sleepInSeconds(GlobalConstants.SHORT_SLEEP);
         }
     }
 

@@ -55,7 +55,7 @@ public class BasePage {
         driver.navigate().forward();
     }
 
-    protected void refreshCurrentPage(WebDriver driver) {
+    public void refreshCurrentPage(WebDriver driver) {
         driver.navigate().refresh();
     }
 
@@ -120,6 +120,19 @@ public class BasePage {
             }
         }
         switchToWindow(driver, parentID);
+    }
+
+    public Set<Cookie> getCookie(WebDriver driver) {
+        return driver.manage().getCookies();
+    }
+
+    public void setCookie(WebDriver driver, Set<Cookie> allCookies) {
+        for (Cookie cookie : allCookies) {
+            driver.manage().addCookie(cookie);
+        }
+
+        sleepInSeconds(GlobalConstants.SHORT_SLEEP);
+        refreshCurrentPage(driver);
     }
 
     //Element functions
@@ -256,12 +269,47 @@ public class BasePage {
             clickToElement(driver, locator);
     }
 
+    public void overideImplicitlyWait(WebDriver driver, long time) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(time));
+    }
+
+    //Element in DOM
     public boolean isControlDisplayed(WebDriver driver, String locator) {
         return getElement(driver, locator).isDisplayed();
     }
 
     public boolean isControlDisplayed(WebDriver driver, String locator, String... restParameter) {
         return getElement(driver, castParameter(locator, restParameter)).isDisplayed();
+    }
+
+    public boolean isControlUndisplayed(WebDriver driver, String locator) {
+        overideImplicitlyWait(driver, GlobalConstants.SHORT_TIMEOUT);
+        List<WebElement> elementList = getListElements(driver, locator);
+        overideImplicitlyWait(driver, GlobalConstants.LONG_TIMEOUT);
+
+        if (elementList.isEmpty()) {
+            //Case 1: Element NOT in DOM
+            return true;
+        } else {
+            //Case 2: Element in DOM, NOT Displayed
+            //Case 3: Element is Displayed
+            return !elementList.get(0).isDisplayed();
+        }
+    }
+
+    public boolean isControlUndisplayed(WebDriver driver, String locator, String... restParameter) {
+        overideImplicitlyWait(driver, GlobalConstants.SHORT_TIMEOUT);
+        List<WebElement> elementList = getListElements(driver, castParameter(locator, restParameter));
+        overideImplicitlyWait(driver, GlobalConstants.LONG_TIMEOUT);
+
+        if (elementList.isEmpty()) {
+            //Case 1: Element NOT in DOM
+            return true;
+        } else {
+            //Case 2: Element in DOM, NOT Displayed
+            //Case 3: Element is Displayed
+            return !elementList.get(0).isDisplayed();
+        }
     }
 
     public boolean isControlSelected(WebDriver driver, String locator) {
@@ -429,4 +477,20 @@ public class BasePage {
         }
     }
 
+
+    // Common funtions
+    public void enterToTextboxById(WebDriver driver, String textboxId, String keysToSend) {
+        waitForElementVisible(driver, BasePageUI.TEXTBOX_BY_ID, textboxId);
+        sendKeysToElement(driver, BasePageUI.TEXTBOX_BY_ID, keysToSend, textboxId);
+    }
+
+    public void clickToButtonByText(WebDriver driver, String buttonText) {
+        waitForElementVisible(driver, BasePageUI.BUTTON_BY_TEXT, buttonText);
+        clickToElement(driver, BasePageUI.BUTTON_BY_TEXT, buttonText);
+    }
+
+    public String getTextboxValueByID(WebDriver driver, String textboxId) {
+        waitForElementVisible(driver, BasePageUI.TEXTBOX_BY_ID, textboxId);
+        return getAttributeValue(driver, BasePageUI.TEXTBOX_BY_ID, "value", textboxId);
+    }
 }

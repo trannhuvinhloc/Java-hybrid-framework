@@ -1,9 +1,30 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" packages="commons">
+    <Properties>
+        <Property name="random">$${date:YYYY-MM-dd_HH-mm}</Property>
+        <Property name="pattern">[%d{dd-MM-YYYY HH:mm:ss.SSS} %level %logger{36}] - %msg%n</Property>
+    </Properties>
 
-<suite name="Suite1" verbose="1">
-    <test name="Nopackage">
-        <classes>
-            <class name="NoPackageTest"/>
-        </classes>
-    </test>
-</suite>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+        <File name="FixedFile" fileName="logs/Fixed.log" append="true">
+            <PatternLayout pattern="${pattern}"/>
+        </File>
+
+        <File name="RandomFile" fileName="logs/Random.${random}.log" immediateFlush="false" append="true">
+            <PatternLayout pattern="${pattern}"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FixedFile"/>
+            <AppenderRef ref="RandomFile"/>
+            <AppenderRef ref="TestAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="JQuery Automation Testing" verbose="1">
+    <listeners>
+        <listener class-name="commons.MethodListener"/>
+    </listeners>
+
+    <parameter name="url" value="https://live.techpanda.org/index.php/customer/account/login/"/>
+
+    <test name="Run on Firefox browser">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="com.nopcommerce.user.Level_13_Verify"/>
+        </classes>
+    </test>
+</suite>

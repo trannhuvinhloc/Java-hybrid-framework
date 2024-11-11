@@ -1,4 +1,4 @@
-package com.nopcommerce.users;
+package com.nopcommerce.user;
 
 import commons.BasePage;
 import org.openqa.selenium.WebDriver;

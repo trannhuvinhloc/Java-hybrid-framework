@@ -7,10 +7,15 @@
       <sourceFolder url="file://$MODULE_DIR$/interfaces" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/testcases" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/htmlExtent" />
       <excludeFolder url="file://$MODULE_DIR$/libraries/sourceDocs" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="libraries" level="project" />
+    <orderEntry type="library" name="log4j2" level="project" />
+    <orderEntry type="library" name="extentreports" level="project" />
+    <orderEntry type="library" name="allure" level="project" />
   </component>
 </module>

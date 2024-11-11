@@ -3,6 +3,7 @@ package pageObjects.nopCommerce.users;
 import commons.BasePage;
 import commons.GlobalConstants;
 import commons.pageGenerator.PageGeneratorNop;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageObjects.nopCommerce.admin.AdminDashboardPageObject;
 import pageUIs.nopCommerce.users.LoginPageUI;
@@ -30,6 +31,7 @@ public class LoginPageObject extends BasePage {
     }
 
     //Action chains
+    @Step("Log in to system with Email and Password: {0} and {1} ")
     public UserHomePageObject logInToSystem(String email, String password) {
         enterToEmailTextbox(email);
         enterToPasswordTextbox(password);

@@ -1,6 +1,7 @@
-package com.nopcommerce.users;
+package com.nopcommerce.user;
 
 import commons.BaseTest;
+import commons.pageGenerator.PageGeneratorNop;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -12,7 +13,7 @@ import pageObjects.nopCommerce.users.UserHomePageObject;
 import pageObjects.nopCommerce.users.LoginPageObject;
 import pageObjects.nopCommerce.users.UserRegisterPageObject;
 
-public class Level_04_Multiple_Browser extends BaseTest {
+public class Level_06_Page_Generator_02 extends BaseTest {
     private WebDriver driver;
 
     private UserHomePageObject userHomePageObject;
@@ -26,7 +27,7 @@ public class Level_04_Multiple_Browser extends BaseTest {
     @BeforeClass
     public void BeforeClass(String browserName) {
         driver = getBrowserDriver(browserName);
-        userHomePageObject = new UserHomePageObject(driver);
+        userHomePageObject = PageGeneratorNop.getUserHomePage(driver);
 
         firstName = "Tom";
         lastName = "Johnson";
@@ -36,9 +37,8 @@ public class Level_04_Multiple_Browser extends BaseTest {
 
     @Test
     public void User_01_Register() {
-        userHomePageObject.clickToRegisterLink();
+        userRegisterPageObject = userHomePageObject.clickToRegisterLink();
 
-        userRegisterPageObject = new UserRegisterPageObject(driver);
         userRegisterPageObject.clickToMaleRadio();
         userRegisterPageObject.enterToAllRequiredTextboxes(firstName, lastName, email, password, password);
 
@@ -50,8 +50,7 @@ public class Level_04_Multiple_Browser extends BaseTest {
 
     @Test
     public void User_02_View_Customer_Info() {
-        userRegisterPageObject.clickToMyAccountLink();
-        userCustomerInfoPageObject = new UserCustomerInfoPageObject(driver);
+        userCustomerInfoPageObject = userRegisterPageObject.clickToMyAccountLink();
 
         Assert.assertTrue(userCustomerInfoPageObject.isGenderMaleSelected());
         Assert.assertEquals(userCustomerInfoPageObject.getFirstNameTextboxValue(), firstName);
@@ -61,18 +60,15 @@ public class Level_04_Multiple_Browser extends BaseTest {
 
     @Test
     public void User_03_Log_out() {
-        userCustomerInfoPageObject.clickToLogOutLink();
-        userHomePageObject = new UserHomePageObject(driver);
+        userHomePageObject = userCustomerInfoPageObject.clickToLogOutLink();
     }
 
     @Test
     public void User_04_Login() {
-        userHomePageObject.clickToLogInLink();
-        loginPageObject = new LoginPageObject(driver);
+        loginPageObject = userHomePageObject.clickToLogInLink();
 
-        loginPageObject.logInToSystem(email, password);
+        userHomePageObject = loginPageObject.logInToSystem(email, password);
 
-        userHomePageObject = new UserHomePageObject(driver);
         Assert.assertTrue(userHomePageObject.isMyAccountLinkDisplay());
     }
 
